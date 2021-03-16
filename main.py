@@ -2,7 +2,22 @@ from pathlib import Path
 import Files.git_helper
 import Files.system_reqs
 
-if __name__ == "__main__":      ##Trying to make it also as module
+if __name__ == "__main__":
+    print(Path.cwd(), "is current directory")
+    
+    change = input("Change dir?\n") ##Want to change dir?
+
+    pos = Files.system_reqs.position_correct(change)    ##Check and eventually change dir
+
+    Files.system_reqs.cls()
+
+    print(Path.cwd())
+
+    branch = input("Branchname:\n")
+
+    Files.git_helper.change_branch(change, branch, True, True)
+
+if __name__ != "__main__":      ##Trying to make it also as module
     yes_list = ["si", "Si","Sì", "SI", "sì"]
     
     print(Path.cwd(), "is current directory")
@@ -27,7 +42,9 @@ if __name__ == "__main__":      ##Trying to make it also as module
 
         if erase in yes_list:
             second = Files.git_helper.clone_repo(link, pos, True, True)
+            
             if second == True:
-                print("Done")
+                print("Fatto")
+            
             else:
                 print("Errore")

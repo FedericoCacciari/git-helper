@@ -1,22 +1,23 @@
+from logging import raiseExceptions
 import git                  ##The name of the program is git-helper...
-from pathlib import Path    ##Used to be compatible with all systems
 import Files.system_reqs    ##Useful Functions
 
 
-def clone_repo(repo, dir, Force=False, returner=False):          ##Clone Repository in directory chosen
+def clone_repo(repo, dir, Force=False, returner=False, branch=False):          ##Clone Repository in directory chosen
     try:                                                         ##Try to clone in directory, if dir not full
         
         git.Git(dir).clone(repo)
+        
         if returner == True:
             return(True)
     
-    except git.exc.GitCommandError:                              ##If directory is not empty:
+    except:                              ##If directory is not empty:
             
         if Force == True:                                        ##Delete file in folder if Forced
-
             Files.system_reqs.erase_function(dir, repo)
             git.Git(dir).clone(repo)
-            if returner == "True":
+            
+            if returner == True:
                 return(True)                                     ##Return True if Returner = True
         
         elif Force == False:
@@ -29,3 +30,39 @@ def clone_repo(repo, dir, Force=False, returner=False):          ##Clone Reposit
             
                 return(False)
 
+    if branch != False:
+
+        change_branch(dir/Files.system_reqs.get_repo_name_from_url(repo))
+    
+
+def change_branch(dir, branch:str, make=False, pushit = False, returner=False):
+    
+    Repo = git.Repo(dir)
+    
+    try:
+
+        Repo.git.switch(branch)
+        
+        if returner == True:
+            return(True)
+
+    except:
+        if make == False:
+            
+            if returner == False:
+                raise Exception("Branch doesn't exist, use make")
+            
+            elif returner == True:
+                return(False)
+        
+        if make == True:
+            Repo.git.checkout("-b",branch)
+            
+            if returner == True:
+                return(True)
+    
+    
+    if Repo.active_branch.name == branch and pushit == True:
+    
+        Repo.git.push("--set-upstream", "origin", Repo.head.ref)
+        
