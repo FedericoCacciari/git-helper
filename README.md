@@ -17,4 +17,4 @@ Da inserire:
 - Reset
 
 
-In Lavoro: Push
+In Lavoro: Pull / Reset
