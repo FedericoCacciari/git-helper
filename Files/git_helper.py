@@ -3,7 +3,7 @@ import git                  ##The name of the program is git-helper...
 import Files.system_reqs    ##Useful Functions
 
 
-def clone_repo(repo, dir, Force=False, returner=False, branch=False):          ##Clone Repository in directory chosen
+def clone_repo(repo, dir, Force=False, returner=False):          ##Clone Repository in directory chosen
     try:                                                         ##Try to clone in directory, if dir not full
         
         git.Git(dir).clone(repo)
@@ -30,12 +30,9 @@ def clone_repo(repo, dir, Force=False, returner=False, branch=False):          #
             
                 return(False)
 
-    if branch != False:
-
-        change_branch(dir/Files.system_reqs.get_repo_name_from_url(repo))
     
 
-def change_branch(dir, branch:str, make=False, pushit = False, returner=False):
+def change_branch(dir, branch:str, make=False,returner=False):
     
     Repo = git.Repo(dir)
     
@@ -60,9 +57,5 @@ def change_branch(dir, branch:str, make=False, pushit = False, returner=False):
             
             if returner == True:
                 return(True)
-    
-    
-    if Repo.active_branch.name == branch and pushit == True:
-    
-        Repo.git.push("--set-upstream", "origin", Repo.head.ref)
-        
+
+def pull_repo
