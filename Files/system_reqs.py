@@ -17,9 +17,8 @@ def cls():               ##Clear Shell
     os.system("CLS")        ##Clear Terminal
 
 
-def position_correct(change):      ##Change position if change is different from "no"
+def position_correct(change, no_list):      ##Change position if change is different from "no"
   
-  no_list = ["no", "No","nO", "NO", "False", "false", "FALSE"]
   ##Just in case you don't know how to write on a keyboard
   
   if change in no_list:        ##If it's in the list, stay in current dir
