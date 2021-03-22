@@ -59,10 +59,23 @@ def change_branch(dir, branch:str, make=False):
 
 def reset_repo(dir, Force=False):
     repository = git.Repo(dir)
-    current = repository.active_branch.name
-    new = ("origin/"+current)
     if Force == True:
         repository.git.fetch("origin")
-        repository.git.reset("--hard", )
+        repository.git.reset("--hard")
     elif Force == False:
         repository.git.pull()
+
+def push_repo(dir, message, notlist=[],Force=False):
+    repository = git.Repo(dir)
+    if not notlist:
+        repository.git.add(all=True)
+    else:
+        git_ign = open(".gitignore", "w")
+        for element in notlist:
+            git_ign.write(element+"\n")
+        git_ign.close()
+    repository.git.commit("-m", message)
+    if Force == False:
+        repository.git.push()
+    elif Force == True:
+        repository.git.push()
