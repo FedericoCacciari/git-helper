@@ -10,11 +10,11 @@ Funzionalità già inserite:
 - Branch
 - Reset
 - Pull
-
+- Push
 Da inserire:
 - Inizializzazione repository
 - Argomenti da linea di comando
-- Push
+
 
 
 In Lavoro: Pull / Reset
