@@ -1,68 +1,66 @@
-from logging import raiseExceptions
 import git                  ##The name of the program is git-helper...
 import Files.system_reqs    ##Useful Functions
+from pathlib import Path
+import os
 
 
-def clone_repo(repo, dir, Force=False, returner=False, branch=False):          ##Clone Repository in directory chosen
-    try:                                                         ##Try to clone in directory, if dir not full
-        
-        git.Git(dir).clone(repo)
-        
-        if returner == True:
-            return(True)
+FoldernotEmpty = object
+
+def clone_repo(repo, dir, Force=False, branch=False):          ##Clone Repository in directory chosen
+
+    repo_dir = Files.system_reqs.get_repo_name_from_url(repo)
     
-    except:                              ##If directory is not empty:
-            
-        if Force == True:                                        ##Delete file in folder if Forced
-            Files.system_reqs.erase_function(dir, repo)
-            git.Git(dir).clone(repo)
-            
-            if returner == True:
-                return(True)                                     ##Return True if Returner = True
-        
-        elif Force == False:
-            
-            if returner == False:
-            
-                raise FileExistsError(dir + "Already exists, use Force") ##If returner not True: Error
-            
-            elif returner == True:                                       ##Else: return False
-            
-                return(False)
-
-    if branch != False:
-
-        change_branch(dir/Files.system_reqs.get_repo_name_from_url(repo))
-    
-
-def change_branch(dir, branch:str, make=False, pushit = False, returner=False):
-    
-    Repo = git.Repo(dir)
-    
+    new_dir = dir / repo_dir
     try:
+        if len(list(os.listdir(new_dir))) != 0:
+            if Force == True:
+                try:
+                    Files.system_reqs.remove_files(dir)
+                except:
+                    git.Git(dir).clone(repo)
+            elif Force == False:
+                try:
+                    git.Git(dir).clone(repo)
+                except:
+                    raise FoldernotEmpty()
+    except FileNotFoundError:
+        git.Git(dir).clone(repo)
+                
 
+    
+
+def change_branch(dir, branch:str, make=False, pushit = False):
+    Repo = git.Repo(dir)
+
+    try:
         Repo.git.switch(branch)
         
-        if returner == True:
-            return(True)
-
     except:
-        if make == False:
-            
-            if returner == False:
-                raise Exception("Branch doesn't exist, use make")
-            
-            elif returner == True:
-                return(False)
         
+        if make == False:
+            raise Exception("Branch doesn't exist, use make")
+            
         if make == True:
             Repo.git.checkout("-b",branch)
-            
-            if returner == True:
-                return(True)
+            Repo.git.switch(branch)
+            Repo.git.push("--set-upstream", "origin", Repo.head.ref)
+
+
+
+def update_repo(dir,reset=False):
+    Repo = git.repo(dir)
     
-    
-    if Repo.active_branch.name == branch and pushit == True:
-    
-        Repo.git.push("--set-upstream", "origin", Repo.head.ref)
+    try:
+        Repo.git.pull()
+
+    except:
         
+        if reset == False:
+            raise Exception("Commit and push or reset")
+
+        elif reset == True:
+            Repo.git.reset("--hard")
+            Repo.git.pull()
+
+
+            
