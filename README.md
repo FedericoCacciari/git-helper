@@ -7,6 +7,7 @@ o da linea di comando con argomenti.
 
 Funzionalità già inserite:
 - Clone di Repository, sostituzione dei file nella cartella
+- Branch
 
 Da inserire:
 - Inizializzazione repository
@@ -14,6 +15,6 @@ Da inserire:
 - Push
 - Pull
 - Reset
-- Branch
 
-In Lavoro: Push
+
+In Lavoro: Pull / Reset
