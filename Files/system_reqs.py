@@ -19,7 +19,6 @@ def cls():                             ##Clear Shell
 
 def position_correct(change, no_list):            ##Change position if change is different from "no"
     
-    ##Just in case you don't know how to write on a keyboard
     
     if change in no_list:                ##If it's in the list, stay in current dir
         
@@ -62,3 +61,5 @@ def onerror(func, path, exc_info):
         func(path)
     else:
         raise
+
+        

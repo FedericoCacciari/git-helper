@@ -4,7 +4,6 @@ from pathlib import Path
 import os
 
 
-FoldernotEmpty = object
 
 def clone_repo(repo, dir, Force=False):          ##Clone Repository in directory chosen
 
@@ -31,7 +30,7 @@ def clone_repo(repo, dir, Force=False):          ##Clone Repository in directory
     
                 except:
     
-                    raise FoldernotEmpty()
+                    raise Exception("FoldernotEmpty")
     
     except FileNotFoundError:
         
