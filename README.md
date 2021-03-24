@@ -34,6 +34,8 @@ The requirements are down here:
 - platform (module) **
 - Shutil (module) **
 - Stat (module) **
+- [Tkinter (module)](https://docs.python.org/3/library/tkinter.html)
+- [PySimpleGui (module)](https://pypi.org/project/PySimpleGUI/)
 
 ** These module should come preinstalled with Python
 

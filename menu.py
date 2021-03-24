@@ -1,8 +1,9 @@
 import PySimpleGUI as psg
 import GUI.Functions as fs
+
 useful_list = ["Copia repository", "Cambia Branch", "Aggiorna Repository", "Resetta Repository","Push repository"] 
 dicta = {"Copia repository":"cp.repo", "Cambia Branch": "ch.Branch", "Aggiorna Repository":"up.repo","Resetta Repository":"rs.repo", "Push repository":"ps.repo"}
-
+psg.theme('DarkAmber')
 layout =[   [psg.Text("Git - Helper GUI")],
             [psg.Button("Copia repository"),
             psg.Button("Cambia Branch"),

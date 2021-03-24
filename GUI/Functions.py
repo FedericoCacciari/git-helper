@@ -1,11 +1,13 @@
 import PySimpleGUI as psg
 from pathlib import Path
-
 from Files import git_helper as gh
+import time
+
 def cp_copy():
+    psg.theme('DarkAmber')
     layout = [[psg.Text("Copy Repository")],
               [psg.Text("Insert Link:"), psg.InputText(key="in_text")], 
-              [psg.Text("Current Dir = " + str(Path.cwd()))], 
+              [psg.Text("Current Dir = "),psg.Text(Path.cwd(), key="dir")], 
               [psg.FolderBrowse(key="Browse")],
               [psg.Text("Modalità forzata: "), psg.Button('Off', size=(3,1), button_color=('white', 'red'), key='_B_')],
               [psg.Button("Exit"),psg.Button("OK")]]
@@ -16,6 +18,10 @@ def cp_copy():
 
     while True:
         events, values = window.read()
+        print(values["Browse"])
+        if values["Browse"] != "":
+            window.Element("dir").update(values["Browse"])
+            window.refresh()
         if events == '_B_':
             down = not down
             window.Element('_B_').Update(('Off','On')[down], button_color=(('white', ('red', 'green')[down])))
@@ -38,6 +44,7 @@ def cp_copy():
         chosen_dir = Path.cwd()
     try:
         gh.clone_repo(link, chosen_dir, down)
+        done()
     except:
         error()
 
@@ -51,7 +58,19 @@ def error():
         if event == "OK" or event == psg.WIN_CLOSED:
            check = False
         if event == "Annulla":
-            exit(0)
+            exit()
     
     window.close()
     cp_copy()
+
+def done():
+    layout = [[psg.Text("Done")]]
+    window = psg.Window("Done", layout)
+    while True:
+        event = window.read()
+        if event == psg.WIN_CLOSED:
+            break
+    window.close()
+    exit(0)
+
+    
