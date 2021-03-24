@@ -18,11 +18,8 @@ def clone_repo(repo, dir, Force=False):          ##Clone Repository in directory
     
             if Force == True:
     
-                try:
-                    Files.system_reqs.remove_files(dir)
-    
-                except:
-                    git.Git(dir).clone(repo)
+                Files.system_reqs.remove_files(new_dir)
+                git.Git(dir).clone(repo)
     
             elif Force == False:
     
